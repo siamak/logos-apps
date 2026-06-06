@@ -81,10 +81,10 @@ document.getElementById("search").addEventListener("input", e => { query = e.tar
 
 function card(n) {
   return `<div class="card">
-    <img src="${n}.svg" alt="${n}" loading="lazy" />
+    <img src="logos/${n}.svg" alt="${n}" loading="lazy" />
     <div class="name">${n}</div>
     <div class="row">
-      <a class="iconbtn" href="${n}.svg" download="${n}.svg">⬇️ SVG</a>
+      <a class="iconbtn" href="logos/${n}.svg" download="${n}.svg">⬇️ SVG</a>
       <button class="iconbtn" onclick="copySvg('${n}', this)">📋 Copy</button>
     </div>
   </div>`;
@@ -92,7 +92,7 @@ function card(n) {
 
 async function copySvg(n, btn) {
   try {
-    const txt = await (await fetch(n + ".svg")).text();
+    const txt = await (await fetch("logos/" + n + ".svg")).text();
     await navigator.clipboard.writeText(txt);
     btn.textContent = "✅ Copied"; setTimeout(() => btn.textContent = "📋 Copy", 1200);
   } catch { btn.textContent = "❌"; setTimeout(() => btn.textContent = "📋 Copy", 1200); }
