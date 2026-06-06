@@ -14,12 +14,12 @@
   <a href="https://github.com/ln-dev7/logos-apps/archive/refs/heads/master.zip">
     <img alt="Download all" src="https://img.shields.io/badge/⬇️_Download_all_logos-.zip-111827?style=for-the-badge" />
   </a>
-  <a href="https://ln-dev7.github.io/logos-apps/">
+  <a href="https://logos.lndev.me/">
     <img alt="Browse the gallery" src="https://img.shields.io/badge/🖼️_Browse_&_download_1--click-website-3b82f6?style=for-the-badge" />
   </a>
 </p>
 
-**[🖼️ Open the interactive gallery](https://ln-dev7.github.io/logos-apps/)** — search, filter by category, and download any logo in one click.
+**[🖼️ Open the interactive gallery](https://logos.lndev.me/)** — search, filter by category, and download any logo in one click.
 
 </div>
 
@@ -37,7 +37,7 @@
 
 **Naming convention:** `brand.svg` = icon only · `brand-wordmark.svg` = logotype (icon + name).
 
-> 💡 In the tables below, **click any icon** to open its file — then use GitHub's download button, or visit the [gallery](https://ln-dev7.github.io/logos-apps/) for true 1-click downloads.
+> 💡 In the tables below, **click any icon** to open its file — then use GitHub's download button, or visit the [gallery](https://logos.lndev.me/) for true 1-click downloads.
 
 ---
 
