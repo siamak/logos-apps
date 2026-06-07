@@ -72,7 +72,7 @@ Every logo, organized by category — open a category to see its full table:
 
 ## 🤝 Contributing
 
-Missing a logo? Fork → add `brand.svg` (lowercase, hyphenated, [SVGO](https://github.com/svg/svgo)-optimized, no raster images) → open a PR 🎉
+Missing a logo? Read the [contribution guide](./CONTRIBUTING.md) — TL;DR: add `logos/brand.svg`, declare its category in `scripts/gen.py`, run `python3 scripts/gen_site.py`, open a PR 🎉
 
 ## ⚖️ License & trademarks
 
