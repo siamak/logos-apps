@@ -579,9 +579,9 @@ Missing a logo? Fork → add `brand.svg` (lowercase, hyphenated, [SVGO](https://
 
 ## ⚖️ License & trademarks
 
-The structure and organization of this repository are free to use and reuse.
+The code, website and organization of this repository are released under the [MIT License](./LICENSE).
 
-**The logos themselves are trademarks and property of their respective owners.** They are provided for convenience only — check each brand's guidelines before use. Inclusion here does **not** grant usage rights nor imply affiliation or endorsement.
+**The logos themselves are trademarks and property of their respective owners** and are **not** covered by the MIT license. They are provided for convenience only — check each brand's guidelines before use. Inclusion here does **not** grant usage rights nor imply affiliation or endorsement.
 
 ---
 
