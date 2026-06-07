@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://logos.lndev.me/sitemap.xml
+Sitemap: https://logos.lndev.me/assets/sitemap.xml
