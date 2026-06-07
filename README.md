@@ -52,19 +52,19 @@ Every logo, organized by category — open a category to see its full table:
 - [⚛️ Frameworks & UI Libraries](./categories/fw.md) — **403**
 - [🛠️ Dev Tools, CI/CD & Testing](./categories/dev.md) — **645**
 - [☁️ Cloud, Hosting & Infrastructure](./categories/cloud.md) — **320**
-- [🗄️ Databases & Data](./categories/db.md) — **188**
+- [🗄️ Databases & Data](./categories/db.md) — **189**
 - [🎨 Design & Creative](./categories/design.md) — **80**
 - [💬 Social & Communication](./categories/social.md) — **129**
-- [💳 Payments, Fintech & Crypto](./categories/pay.md) — **143**
+- [💳 Payments, Fintech & Crypto](./categories/pay.md) — **144**
 - [📋 Productivity & Collaboration](./categories/prod.md) — **1817**
 - [🛒 E-commerce & CMS](./categories/shop.md) — **98**
 - [🎵 Media & Entertainment](./categories/media.md) — **182**
 - [🖥️ OS, Platforms & Browsers](./categories/os.md) — **79**
-- [📊 Analytics, Marketing & CRM](./categories/mkt.md) — **167**
+- [📊 Analytics, Marketing & CRM](./categories/mkt.md) — **169**
 - [🔐 Security & Identity](./categories/sec.md) — **99**
 - [🌐 Web Standards & Protocols](./categories/web.md) — **79**
-- [🏢 Companies & Services](./categories/corp.md) — **1261**
-- [📦 Others](./categories/other.md) — **46**
+- [🏢 Companies & Services](./categories/corp.md) — **1262**
+- [📦 Others](./categories/other.md) — **41**
 
 > ⚠️ Categories are auto-generated — spotted a logo in the wrong place? PRs welcome!
 
