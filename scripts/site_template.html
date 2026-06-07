@@ -361,6 +361,11 @@ html:not(.dark) .theme-toggle .seg-light, .dark .theme-toggle .seg-dark { backgr
   background: var(--background); padding-inline: 0.75rem; font-size: 0.75rem; font-weight: 500; border-radius: calc(var(--radius) * 0.8); transition: background .15s; }
 .empty button:hover { background: var(--muted); }
 
+.empty .contribute-link { font-size: 0.75rem; color: var(--muted-foreground); text-decoration: underline; text-underline-offset: 3px; transition: color .15s; }
+.empty .contribute-link:hover { color: var(--foreground); }
+.empty-sponsor { width: min(15rem, 100%); margin-top: 1.25rem; border: 1px solid var(--border); border-radius: calc(var(--radius) * 1.2); overflow: hidden; }
+.empty-sponsor .cell { width: 100%; }
+
 /* pagination */
 .pagination { display: flex; flex-direction: column; align-items: center; gap: 1rem; border-top: 1px solid var(--border);
   background: var(--background); padding: 1rem; }
@@ -433,17 +438,13 @@ html:not(.dark) .theme-toggle .seg-light, .dark .theme-toggle .seg-dark { backgr
       <a class="by" href="https://lndev.me" target="_blank" rel="noreferrer">by lndev</a>
     </div>
     <div class="header-actions">
-      <a class="nav-link" href="https://github.com/__REPO__" target="_blank" rel="noreferrer">
-        GitHub
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
-      </a>
       <button class="btn-sponsor" id="sponsorOpen" type="button" aria-haspopup="dialog">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.735H5.81a1 1 0 0 1-.957-.735L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/></svg>
         <span>Sponsor</span>
       </button>
-      <a class="btn-primary" href="__ZIP__">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-        <span>Download all</span>
+      <a class="btn-primary" href="https://github.com/__REPO__" target="_blank" rel="noreferrer">
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.475 2 2 6.475 2 12a9.994 9.994 0 0 0 6.838 9.488c.5.087.687-.213.687-.475 0-.237-.013-1.024-.013-1.862-2.512.463-3.162-.612-3.362-1.175-.113-.288-.6-1.175-1.025-1.413-.35-.187-.85-.65-.013-.662.788-.013 1.35.725 1.538 1.025.9 1.512 2.337 1.087 2.912.825.088-.65.35-1.087.638-1.337-2.225-.25-4.55-1.113-4.55-4.938 0-1.088.387-1.987 1.025-2.687-.1-.25-.45-1.275.1-2.65 0 0 .837-.262 2.75 1.025a9.282 9.282 0 0 1 2.5-.337c.85 0 1.7.112 2.5.337 1.912-1.3 2.75-1.025 2.75-1.025.55 1.375.2 2.4.1 2.65.637.7 1.025 1.587 1.025 2.687 0 3.838-2.337 4.688-4.562 4.938.362.312.675.912.675 1.85 0 1.337-.013 2.412-.013 2.75 0 .262.188.574.688.474A10.016 10.016 0 0 0 22 12c0-5.525-4.475-10-10-10z"/></svg>
+        <span>GitHub</span>
       </a>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
         <span class="seg-light"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></span>
@@ -623,7 +624,7 @@ html:not(.dark) .theme-toggle .seg-light, .dark .theme-toggle .seg-dark { backgr
         <div class="footer-col">
           <h4>Project</h4>
           <a href="https://github.com/__REPO__" target="_blank" rel="noreferrer">GitHub <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
-          <a href="__ZIP__">Download .zip</a>
+          <a href="https://github.com/__REPO__/blob/master/CONTRIBUTING.md" target="_blank" rel="noreferrer">Contribute a logo <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
           <a href="https://github.com/__REPO__/issues" target="_blank" rel="noreferrer">Request a logo <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
         </div>
         <div class="footer-col">
@@ -852,18 +853,12 @@ function update(scrollTop) {
   const showSponsor = sponsorMatches();
 
   if (!list.length) {
-    if (showSponsor) {
-      // only the sponsored card matches (e.g. searching "lndev")
-      results.innerHTML = state.view === "grid"
-        ? `<div class="grid">${sponsorCellHtml()}</div>`
-        : `<div class="rows">${sponsorRowHtml()}</div>`;
-      bar.hidden = true;
-      return;
-    }
     results.innerHTML = `<div class="empty">
       <p class="t">No logo matches “${esc(state.q)}”.</p>
       <p class="d">Try a brand like <code>react</code>, <code>stripe</code> or <code>figma</code> — or clear your filters.</p>
       <button type="button" id="emptyClear">Clear filters</button>
+      <a class="contribute-link" href="https://github.com/__REPO__/blob/master/CONTRIBUTING.md" target="_blank" rel="noreferrer">Can’t find it? Contribute it to the collection →</a>
+      <div class="empty-sponsor">${sponsorCellHtml()}</div>
     </div>`;
     bar.hidden = true;
     document.getElementById("emptyClear").onclick = clearAll;
