@@ -2,10 +2,10 @@
 
 # 🎨 Logos Apps
 
-### A free, open collection of **15,120** clean SVG logos for apps, tools & tech brands.
+### A free, open collection of **14,780** clean SVG logos for apps, tools & tech brands.
 
 <p>
-  <img alt="Logos" src="https://img.shields.io/badge/logos-15120-6366f1?style=for-the-badge" />
+  <img alt="Logos" src="https://img.shields.io/badge/logos-14780-6366f1?style=for-the-badge" />
   <img alt="Format" src="https://img.shields.io/badge/format-SVG-f59e0b?style=for-the-badge" />
   <img alt="Price" src="https://img.shields.io/badge/price-free-22c55e?style=for-the-badge" />
 </p>
@@ -48,22 +48,22 @@
 Every logo, organized by category — open a category to see its full table:
 
 - [🤖 AI & Machine Learning](./categories/ai.md) — **139**
-- [💻 Languages & Runtimes](./categories/lang.md) — **165**
-- [⚛️ Frameworks & UI Libraries](./categories/fw.md) — **511**
-- [🛠️ Dev Tools, CI/CD & Testing](./categories/dev.md) — **1082**
-- [☁️ Cloud, Hosting & Infrastructure](./categories/cloud.md) — **718**
-- [🗄️ Databases & Data](./categories/db.md) — **295**
-- [🎨 Design & Creative](./categories/design.md) — **92**
-- [💬 Social & Communication](./categories/social.md) — **178**
-- [💳 Payments, Fintech & Crypto](./categories/pay.md) — **2523**
-- [📋 Productivity & Collaboration](./categories/prod.md) — **2711**
-- [🛒 E-commerce & CMS](./categories/shop.md) — **126**
-- [🎵 Media & Entertainment](./categories/media.md) — **311**
-- [🖥️ OS, Platforms & Browsers](./categories/os.md) — **116**
-- [📊 Analytics, Marketing & CRM](./categories/mkt.md) — **215**
-- [🔐 Security & Identity](./categories/sec.md) — **248**
-- [🌐 Web Standards & Protocols](./categories/web.md) — **103**
-- [🏢 Companies & Services](./categories/corp.md) — **5546**
+- [💻 Languages & Runtimes](./categories/lang.md) — **163**
+- [⚛️ Frameworks & UI Libraries](./categories/fw.md) — **498**
+- [🛠️ Dev Tools, CI/CD & Testing](./categories/dev.md) — **977**
+- [☁️ Cloud, Hosting & Infrastructure](./categories/cloud.md) — **562**
+- [🗄️ Databases & Data](./categories/db.md) — **276**
+- [🎨 Design & Creative](./categories/design.md) — **88**
+- [💬 Social & Communication](./categories/social.md) — **152**
+- [💳 Payments, Fintech & Crypto](./categories/pay.md) — **2425**
+- [📋 Productivity & Collaboration](./categories/prod.md) — **2984**
+- [🛒 E-commerce & CMS](./categories/shop.md) — **101**
+- [🎵 Media & Entertainment](./categories/media.md) — **127**
+- [🖥️ OS, Platforms & Browsers](./categories/os.md) — **137**
+- [📊 Analytics, Marketing & CRM](./categories/mkt.md) — **162**
+- [🔐 Security & Identity](./categories/sec.md) — **202**
+- [🌐 Web Standards & Protocols](./categories/web.md) — **71**
+- [🏢 Companies & Services](./categories/corp.md) — **5675**
 - [📦 Others](./categories/other.md) — **41**
 
 > ⚠️ Categories are auto-generated — spotted a logo in the wrong place? PRs welcome!
