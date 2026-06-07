@@ -534,7 +534,7 @@ html:not(.dark) .theme-toggle .seg-light, .dark .theme-toggle .seg-dark { backgr
         <div class="info">
           <span>Show</span>
           <select id="perPage" aria-label="Logos per page">
-            <option>48</option><option selected>96</option><option>192</option><option>384</option>
+            <option selected>50</option><option>100</option><option>250</option><option>500</option>
           </select>
           <span>per page <span style="opacity:.5;padding-inline:.25rem">·</span> <span class="tabular" id="rangeInfo"></span></span>
         </div>
@@ -643,8 +643,8 @@ html:not(.dark) .theme-toggle .seg-light, .dark .theme-toggle .seg-dark { backgr
 
 <script>
 const CATS = __CATS__;
-const PER_PAGE_OPTIONS = [48, 96, 192, 384];
-const DEFAULT_PER_PAGE = 96;
+const PER_PAGE_OPTIONS = [50, 100, 250, 500];
+const DEFAULT_PER_PAGE = 50;
 
 /* ---------- lucide-style icon set ---------- */
 const I = {
