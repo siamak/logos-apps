@@ -534,7 +534,7 @@ html:not(.dark) .theme-toggle .seg-light, .dark .theme-toggle .seg-dark { backgr
         <div class="info">
           <span>Show</span>
           <select id="perPage" aria-label="Logos per page">
-            <option selected>50</option><option>100</option><option>250</option><option>500</option>
+            <option>50</option><option selected>100</option><option>250</option><option>500</option>
           </select>
           <span>per page <span style="opacity:.5;padding-inline:.25rem">·</span> <span class="tabular" id="rangeInfo"></span></span>
         </div>
@@ -644,7 +644,7 @@ html:not(.dark) .theme-toggle .seg-light, .dark .theme-toggle .seg-dark { backgr
 <script>
 const CATS = __CATS__;
 const PER_PAGE_OPTIONS = [50, 100, 250, 500];
-const DEFAULT_PER_PAGE = 50;
+const DEFAULT_PER_PAGE = 100;
 
 /* ---------- lucide-style icon set ---------- */
 const I = {
@@ -870,10 +870,12 @@ function update(scrollTop) {
     return;
   }
 
-  const totalPages = Math.max(1, Math.ceil(list.length / state.perPage));
+  // the pinned sponsored card counts toward the page size
+  const eff = Math.max(1, state.perPage - (showSponsor ? 1 : 0));
+  const totalPages = Math.max(1, Math.ceil(list.length / eff));
   state.page = Math.min(state.page, totalPages);
-  const start = (state.page - 1) * state.perPage;
-  const end = Math.min(start + state.perPage, list.length);
+  const start = (state.page - 1) * eff;
+  const end = Math.min(start + eff, list.length);
   const slice = list.slice(start, end);
 
   const sponsorHtml = showSponsor ? (state.view === "grid" ? sponsorCellHtml() : sponsorRowHtml()) : "";
