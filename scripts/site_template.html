@@ -371,6 +371,40 @@ html:not(.dark) .theme-toggle .seg-light, .dark .theme-toggle .seg-dark { backgr
 .empty-sponsor { width: min(15rem, 100%); margin-top: 1.25rem; border: 1px solid var(--border); border-radius: calc(var(--radius) * 1.2); overflow: hidden; }
 .empty-sponsor .cell { width: 100%; }
 
+/* copy format menu */
+.copymenu-backdrop { position: fixed; inset: 0; z-index: 65; display: none; }
+.copymenu-backdrop.open { display: block; }
+.copymenu { position: fixed; z-index: 66; width: 17rem; max-width: calc(100vw - 1.5rem); display: none;
+  background: var(--background); border: 1px solid var(--border); border-radius: calc(var(--radius) * 1.2);
+  box-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.28); padding: 0.75rem; }
+.copymenu.open { display: block; }
+.copymenu-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.625rem; }
+.copymenu-name { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+.copymenu-name img { width: 1.125rem; height: 1.125rem; object-fit: contain; }
+.dark .copymenu-name img.tint { filter: invert(1); }
+.copymenu-name span { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8125rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.copymenu-x { display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: calc(var(--radius) * 0.5); color: var(--muted-foreground); flex: none; }
+.copymenu-x:hover { background: var(--muted); color: var(--foreground); }
+.copymenu-x .icon { width: 0.875rem; height: 0.875rem; }
+.fmt-tabs { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.fmt-tab { padding: 0.3125rem 0.5rem; border-radius: 9999px; border: 1px solid var(--border); background: var(--background);
+  font-size: 0.6875rem; font-weight: 500; color: var(--muted-foreground); transition: .12s; }
+.fmt-tab:hover { color: var(--foreground); }
+.fmt-tab.active { background: var(--foreground); color: var(--background); border-color: var(--foreground); }
+.lang-toggle { display: flex; gap: 0.25rem; margin-top: 0.625rem; }
+.lang-toggle.hidden { display: none; }
+.lang-tab { flex: 1; padding: 0.3125rem 0; border-radius: calc(var(--radius) * 0.6); border: 1px solid var(--border);
+  background: var(--background); font-size: 0.6875rem; font-weight: 600; color: var(--muted-foreground); transition: .12s; }
+.lang-tab.active { background: var(--muted); color: var(--foreground); }
+.copymenu-do { display: flex; align-items: center; justify-content: center; gap: 0.4375rem; width: 100%; height: 2.25rem;
+  margin-top: 0.75rem; border-radius: calc(var(--radius) * 0.8); background: var(--foreground); color: var(--background);
+  font-size: 0.8125rem; font-weight: 600; transition: opacity .12s; }
+.copymenu-do:hover { opacity: 0.9; }
+.copymenu-do .icon { width: 0.875rem; height: 0.875rem; }
+.copymenu-do .icon.ok { color: #4ade80; }
+.copymenu-hint { margin-top: 0.625rem; font-size: 0.625rem; line-height: 1.4; color: var(--muted-foreground); text-align: center; }
+.copymenu-hint kbd { font-family: ui-monospace, monospace; border: 1px solid var(--border); border-radius: 4px; padding: 0 0.25rem; }
+
 /* pagination */
 .pagination { display: flex; flex-direction: column; align-items: center; gap: 1rem; border-top: 1px solid var(--border);
   background: var(--background); padding: 1rem; }
@@ -568,6 +602,20 @@ html:not(.dark) .theme-toggle .seg-light, .dark .theme-toggle .seg-dark { backgr
       <button class="solid" type="button" id="drawerShow">Show results</button>
     </div>
   </aside>
+</div>
+
+<div class="copymenu-backdrop" id="copyBackdrop"></div>
+<div class="copymenu" id="copyMenu" role="dialog" aria-label="Copy logo as code">
+  <div class="copymenu-head">
+    <span class="copymenu-name"><img id="cmIcon" alt="" /><span id="cmName"></span></span>
+    <button class="copymenu-x" id="cmClose" type="button" aria-label="Close">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </div>
+  <div class="fmt-tabs" id="cmTabs"></div>
+  <div class="lang-toggle hidden" id="cmLang"></div>
+  <button class="copymenu-do" id="cmCopy" type="button"></button>
+  <p class="copymenu-hint"><kbd>Shift</kbd> + click the copy button to grab SVG instantly.</p>
 </div>
 
 <div class="modal-root" id="sponsorModal" role="dialog" aria-modal="true" aria-labelledby="sponsorTitle" aria-hidden="true">
@@ -932,20 +980,186 @@ document.getElementById("results").addEventListener("keydown", e => {
 });
 
 /* ---------- copy ---------- */
-document.addEventListener("click", async e => {
-  const b = e.target.closest("[data-copy]");
-  if (!b) return;
+/* ---------- copy: shift-click = instant SVG, plain click = format menu ---------- */
+const svgCache = {};
+async function loadSvg(name) {
+  if (!svgCache[name]) svgCache[name] = (await (await fetch("logos/" + name + ".svg")).text()).trim();
+  return svgCache[name];
+}
+
+async function flashBtn(b, ok) {
   const isPill = b.classList.contains("pillbtn");
   const original = b.innerHTML;
-  try {
-    const txt = await (await fetch("logos/" + b.dataset.copy + ".svg")).text();
-    await navigator.clipboard.writeText(txt);
-    b.innerHTML = isPill ? `${ic("check", "icon ok")}Copied` : ic("check", "icon ok");
-  } catch {
-    b.innerHTML = isPill ? `${ic("copy")}Failed` : ic("copy");
-  }
+  b.innerHTML = isPill ? `${ic(ok ? "check" : "copy", ok ? "icon ok" : "icon")}${ok ? "Copied" : "Failed"}` : ic(ok ? "check" : "copy", ok ? "icon ok" : "icon");
   setTimeout(() => { b.innerHTML = original; }, 1400);
+}
+
+document.addEventListener("click", async e => {
+  const b = e.target.closest("[data-copy]");
+  if (!b || b.closest("#copyMenu")) return;
+  if (e.shiftKey) {                       // power-user shortcut → raw SVG
+    try { await navigator.clipboard.writeText(await loadSvg(b.dataset.copy)); flashBtn(b, true); }
+    catch { flashBtn(b, false); }
+    return;
+  }
+  openCopyMenu(b.dataset.copy, b);        // plain click → multi-format menu
 });
+
+/* ---------- SVG → framework code converters ---------- */
+function pascal(id) {
+  let n = id.replace(/(^|[-_])([a-z0-9])/g, (_, __, c) => c.toUpperCase()).replace(/[^a-zA-Z0-9]/g, "") + "Icon";
+  if (/^[0-9]/.test(n)) n = "Logo" + n;   // valid JS identifier
+  return n;
+}
+function kebab(id) {
+  let k = id.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "-icon";
+  if (/^[0-9]/.test(k)) k = "logo-" + k;  // custom-element names must start with a letter
+  return k;
+}
+
+function jsxAttr(n) {
+  if (n === "class") return "className";
+  if (n === "for") return "htmlFor";
+  if (n.startsWith("data-") || n.startsWith("aria-")) return n;
+  return n.replace(/[-:]([a-z])/g, (_, c) => c.toUpperCase());
+}
+function styleToJsx(v) {
+  const obj = v.split(";").map(s => s.trim()).filter(Boolean).map(d => {
+    const i = d.indexOf(":"); const k = d.slice(0, i).trim(); const val = d.slice(i + 1).trim();
+    const key = k.startsWith("--") ? `'${k}'` : k.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+    return `${key}: '${val.replace(/'/g, "\\'")}'`;
+  }).join(", ");
+  return `{{ ${obj} }}`;
+}
+// serialize a DOM node tree into JSX (props spread injected on the root <svg>)
+function nodeToJsx(node, indent, isRoot) {
+  if (node.nodeType === 3) { const t = node.textContent.trim(); return t ? indent + t : ""; }
+  if (node.nodeType !== 1) return "";
+  const tag = node.tagName;
+  // <style>/<script> bodies hold raw CSS/JS — wrap in a JSX string so braces aren't parsed as expressions
+  if (tag === "style" || tag === "script") {
+    const css = node.textContent.trim();
+    return `${indent}<${tag}>{\`${css.replace(/`/g, "\\`")}\`}</${tag}>`;
+  }
+  let attrs = "";
+  for (const a of node.attributes) {
+    if (isRoot && /^xmlns/.test(a.name)) { attrs += ` ${a.name}="${a.value}"`; continue; }
+    const name = jsxAttr(a.name);
+    attrs += a.name === "style" ? ` style=${styleToJsx(a.value)}` : ` ${name}="${a.value}"`;
+  }
+  if (isRoot) attrs += " {...props}";
+  const kids = [...node.childNodes].map(c => nodeToJsx(c, indent + "  ", false)).filter(Boolean);
+  if (!kids.length) return `${indent}<${tag}${attrs} />`;
+  return `${indent}<${tag}${attrs}>\n${kids.join("\n")}\n${indent}</${tag}>`;
+}
+function svgToJsxTree(svg, baseIndent) {
+  const doc = new DOMParser().parseFromString(svg, "image/svg+xml");
+  return nodeToJsx(doc.documentElement, baseIndent, true);
+}
+
+function convert(fmt, lang, svg, id) {
+  const Name = pascal(id), tag = kebab(id);
+  switch (fmt) {
+    case "svg":
+      return svg;
+    case "react": {
+      const body = svgToJsxTree(svg, "  ");
+      const ts = lang === "ts";
+      return `${ts ? 'import type { SVGProps } from "react";\n\n' : ""}export function ${Name}(props${ts ? ": SVGProps<SVGSVGElement>" : ""}) {\n  return (\n${body.replace(/^/gm, "  ")}\n  );\n}\n`;
+    }
+    case "vue":
+      return `<template>\n${svg.replace(/^/gm, "  ")}\n</template>\n\n<` + `script setup${lang === "ts" ? ' lang="ts"' : ""}><\/script>\n`;
+    case "svelte":
+      return `<` + `script${lang === "ts" ? ' lang="ts"' : ""}><\/script>\n\n${svg}\n`;
+    case "angular":
+      return `import { Component } from "@angular/core";\n\n@Component({\n  selector: "${tag}",\n  standalone: true,\n  template: \`\n${svg.replace(/`/g, "\\`").replace(/^/gm, "    ")}\n  \`,\n})\nexport class ${Name}Component {}\n`;
+    case "astro":
+      return `---\n---\n${svg}\n`;
+    case "wc":
+      return `class ${Name} extends HTMLElement {\n  connectedCallback() {\n    this.attachShadow({ mode: "open" }).innerHTML = \`${svg.replace(/`/g, "\\`")}\`;\n  }\n}\ncustomElements.define("${tag}", ${Name});\n`;
+  }
+}
+
+/* ---------- format menu ---------- */
+const FORMATS = [
+  { id: "svg", label: "SVG", logo: "svg" },
+  { id: "react", label: "React", logo: "react", langs: ["tsx", "jsx"] },
+  { id: "vue", label: "Vue", logo: "vue", langs: ["ts", "js"] },
+  { id: "svelte", label: "Svelte", logo: "svelte", langs: ["ts", "js"] },
+  { id: "angular", label: "Angular", logo: "angular" },
+  { id: "astro", label: "Astro", logo: "astro" },
+  { id: "wc", label: "Web Component", logo: "webcomponents" },
+];
+const cm = {
+  el: document.getElementById("copyMenu"),
+  backdrop: document.getElementById("copyBackdrop"),
+  tabs: document.getElementById("cmTabs"),
+  lang: document.getElementById("cmLang"),
+  copyBtn: document.getElementById("cmCopy"),
+  name: document.getElementById("cmName"),
+  icon: document.getElementById("cmIcon"),
+  current: null, fmt: "svg", langIdx: 0,
+};
+
+cm.tabs.innerHTML = FORMATS.map((f, i) =>
+  `<button class="fmt-tab${i === 0 ? " active" : ""}" type="button" data-fmt="${f.id}">${f.label}</button>`).join("");
+
+function renderLangs() {
+  const f = FORMATS.find(x => x.id === cm.fmt);
+  if (!f.langs) { cm.lang.classList.add("hidden"); cm.lang.innerHTML = ""; }
+  else {
+    cm.lang.classList.remove("hidden");
+    cm.lang.innerHTML = f.langs.map((l, i) =>
+      `<button class="lang-tab${i === cm.langIdx ? " active" : ""}" type="button" data-lang="${i}">${l.toUpperCase()}</button>`).join("");
+  }
+  const lbl = f.langs ? `${f.label} · ${f.langs[cm.langIdx].toUpperCase()}` : f.label;
+  cm.copyBtn.innerHTML = `${ic("copy")}Copy ${lbl}`;
+}
+
+function openCopyMenu(name, anchor) {
+  cm.current = name; cm.fmt = "svg"; cm.langIdx = 0;
+  cm.name.textContent = name;
+  cm.icon.src = "logos/" + name + ".svg";
+  cm.icon.className = "";
+  [...cm.tabs.children].forEach((t, i) => t.classList.toggle("active", i === 0));
+  renderLangs();
+  cm.backdrop.classList.add("open");
+  cm.el.classList.add("open");
+  // position near the anchor, clamped to viewport
+  const r = anchor.getBoundingClientRect();
+  const w = cm.el.offsetWidth, h = cm.el.offsetHeight;
+  let left = Math.min(r.left, window.innerWidth - w - 12);
+  let top = r.bottom + 8;
+  if (top + h > window.innerHeight - 12) top = Math.max(12, r.top - h - 8);
+  cm.el.style.left = Math.max(12, left) + "px";
+  cm.el.style.top = top + "px";
+}
+function closeCopyMenu() { cm.el.classList.remove("open"); cm.backdrop.classList.remove("open"); }
+
+cm.tabs.addEventListener("click", e => {
+  const t = e.target.closest("[data-fmt]"); if (!t) return;
+  cm.fmt = t.dataset.fmt; cm.langIdx = 0;
+  [...cm.tabs.children].forEach(x => x.classList.toggle("active", x === t));
+  renderLangs();
+});
+cm.lang.addEventListener("click", e => {
+  const t = e.target.closest("[data-lang]"); if (!t) return;
+  cm.langIdx = +t.dataset.lang;
+  [...cm.lang.children].forEach(x => x.classList.toggle("active", x === t));
+  renderLangs();
+});
+cm.copyBtn.addEventListener("click", async () => {
+  const f = FORMATS.find(x => x.id === cm.fmt);
+  const lang = f.langs ? f.langs[cm.langIdx].replace("jsx", "js").replace("tsx", "ts") : "";
+  try {
+    const out = convert(cm.fmt, lang, await loadSvg(cm.current), cm.current);
+    await navigator.clipboard.writeText(out);
+    cm.copyBtn.innerHTML = `${ic("check", "icon ok")}Copied!`;
+  } catch { cm.copyBtn.innerHTML = `${ic("copy")}Failed`; }
+  setTimeout(renderLangs, 1200);
+});
+document.getElementById("cmClose").addEventListener("click", closeCopyMenu);
+cm.backdrop.addEventListener("click", closeCopyMenu);
 
 /* ---------- search ---------- */
 const searchEl = document.getElementById("search");
@@ -957,7 +1171,7 @@ searchEl.addEventListener("input", () => {
 });
 document.addEventListener("keydown", e => {
   if (e.key === "/" && document.activeElement !== searchEl) { e.preventDefault(); searchEl.focus(); }
-  if (e.key === "Escape") { closeDrawer(); closeSponsorModal(); }
+  if (e.key === "Escape") { closeDrawer(); closeSponsorModal(); closeCopyMenu(); }
 });
 
 /* ---------- sponsor modal ---------- */
