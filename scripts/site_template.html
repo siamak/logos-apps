@@ -1128,6 +1128,7 @@ function openCopyMenu(name, anchor) {
   renderLangs();
   cm.backdrop.classList.add("open");
   cm.el.classList.add("open");
+  document.documentElement.style.overflow = "hidden";
   // position near the anchor, clamped to viewport
   const r = anchor.getBoundingClientRect();
   const w = cm.el.offsetWidth, h = cm.el.offsetHeight;
@@ -1137,7 +1138,7 @@ function openCopyMenu(name, anchor) {
   cm.el.style.left = Math.max(12, left) + "px";
   cm.el.style.top = top + "px";
 }
-function closeCopyMenu() { cm.el.classList.remove("open"); cm.backdrop.classList.remove("open"); }
+function closeCopyMenu() { cm.el.classList.remove("open"); cm.backdrop.classList.remove("open"); document.documentElement.style.overflow = ""; }
 
 cm.tabs.addEventListener("click", e => {
   const t = e.target.closest("[data-fmt]"); if (!t) return;
